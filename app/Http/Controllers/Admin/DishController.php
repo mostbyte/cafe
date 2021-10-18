@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Dish;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -20,7 +21,10 @@ class DishController extends Controller
      */
     public function index()
     {
-        return view('admin.dishes.index');
+        $dishes = Dish::all();
+        return view('admin.dishes.index', [
+            'dishes' => $dishes
+        ]);
     }
 
     /**
