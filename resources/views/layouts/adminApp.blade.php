@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{{asset("plugins/overlayScrollbars/css/OverlayScrollbars.min.css")}}">
     <!-- Daterange picker -->
     <link rel="stylesheet" href="{{asset("plugins/daterangepicker/daterangepicker.css")}}">
+    @yield('links')
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -162,5 +163,6 @@
 <script src="{{asset("plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js")}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset("dist/js/adminlte.js")}}"></script>>
+@yield('scripts')
 </body>
 </html>
