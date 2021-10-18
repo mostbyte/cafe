@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\DishType;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DishTypeRequest;
 use Illuminate\Http\Request;
 
 class DishTypeController extends Controller
@@ -21,9 +22,8 @@ class DishTypeController extends Controller
      */
     public function index()
     {
-        $dishTypes = DishType::all();
         return view('admin.dish_types.index', [
-            'dishTypes' => $dishTypes
+            'dishTypes' => DishType::all(),
         ]);
     }
 
@@ -34,7 +34,7 @@ class DishTypeController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.dish_types.create');
     }
 
     /**
@@ -43,9 +43,10 @@ class DishTypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DishTypeRequest $request)
     {
-        //
+        DishType::query()->create($request->validated());
+        return redirect()->route('admin.dishtype.index');
     }
 
     /**
@@ -65,9 +66,11 @@ class DishTypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(DishType $dishType)
     {
-        //
+        return view('admin.dish_types.edit', [
+            'dishType' => $dishType,
+        ]);
     }
 
     /**
@@ -77,9 +80,10 @@ class DishTypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(DishTypeRequest $request, DishType $dishType)
     {
-        //
+        tap($dishType)->update($request->validated());
+        return redirect()->route('admin.dishtype.index');
     }
 
     /**
@@ -88,8 +92,9 @@ class DishTypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(DishType $dishType)
     {
-        //
+        $dishType->delete();
+        return redirect()->route('admin.dishtype.index');
     }
 }

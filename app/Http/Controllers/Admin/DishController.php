@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Dish;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\DishRequest;
 
 class DishController extends Controller
 {
@@ -34,18 +34,19 @@ class DishController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.dishes.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param DishRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DishRequest $request)
     {
-        //
+        Dish::query()->create($request->validated());
+        return redirect()->route('admin.dish.index');
     }
 
     /**
@@ -65,21 +66,24 @@ class DishController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Dish $dish)
     {
-        //
+        return view('admin.dishes.edit', [
+            'dish' => $dish,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  DishRequest $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(DishRequest $request, Dish $dish)
     {
-        //
+       tap($dish)->update($request->validated());
+       return redirect()->route('admin.dish.index');
     }
 
     /**
@@ -88,8 +92,9 @@ class DishController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Dish $dish)
     {
-        //
+        $dish->delete();
+        return redirect()->route('admin.dish.index');
     }
 }

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Constants\CheckPercentConstants;
+use App\Constants\RoleConstants;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -65,9 +68,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+        return view('admin.users.edit', [
+            'user' => $user,
+            'roles'=> RoleConstants::translatedList(),
+            'checks' => CheckPercentConstants::translatedList(),
+        ]);
     }
 
     /**
@@ -77,9 +84,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, User $user)
     {
-        //
+        tap($user)->update($request->validated());
+        return redirect()->route('admin.user.index');
     }
 
     /**

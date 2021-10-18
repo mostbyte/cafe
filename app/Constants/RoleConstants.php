@@ -18,4 +18,14 @@ class RoleConstants
             self::MODERATOR,
         ];
     }
+
+    public static function translatedList(): array
+    {
+        return [
+            self::ADMIN => 'Администратор',
+            self::WAITER => 'Официант',
+            self::CASHIER => 'Кассир',
+            self::MODERATOR => 'Модератор',
+        ];
+    }
 }

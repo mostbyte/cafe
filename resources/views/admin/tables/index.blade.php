@@ -17,6 +17,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Название</th>
+                            <th>Цена</th>
                             <th>Добавлено</th>
                             <th>Дейсвие</th>
                         </tr>
@@ -26,6 +27,7 @@
                             <tr>
                                 <td>{{ $table->id }}</td>
                                 <td>{{ $table->name }}</td>
+                                <td>{{ $table->price }}</td>
                                 <td>{{ $table->created_at }}</td>
                                 <td>
                                     <a href="{{route('admin.table.edit', $table->id)}}" class="btn btn-app">

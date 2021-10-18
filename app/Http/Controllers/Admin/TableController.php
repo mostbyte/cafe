@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TableRequest;
 use App\Table;
 use Illuminate\Http\Request;
 
@@ -34,7 +35,7 @@ class TableController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.tables.create');
     }
 
     /**
@@ -43,9 +44,10 @@ class TableController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TableRequest $request)
     {
-        //
+        Table::query()->create($request->validated());
+        return redirect()->route('admin.table.index');
     }
 
     /**
@@ -65,9 +67,11 @@ class TableController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Table $table)
     {
-        //
+        return view('admin.tables.edit', [
+            'table' => $table
+        ]);
     }
 
     /**
@@ -77,9 +81,10 @@ class TableController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TableRequest $request, Table $table)
     {
-        //
+        tap($table)->update($request->validated());
+        return redirect()->route('admin.table.index');
     }
 
     /**
@@ -88,8 +93,9 @@ class TableController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Table $table)
     {
-        //
+        $table->delete();
+        return redirect()->route('admin.table.index');
     }
 }

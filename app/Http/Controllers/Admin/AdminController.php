@@ -20,7 +20,10 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('admin.index');
+        $roles = ['admin', 'moderator'];
+        return view('admin.index', [
+            'roles' => $roles,
+        ]);
     }
 
     /**

@@ -35,7 +35,7 @@
                                         Нет
                                     @endif
                                 </td>
-                                <td><a href="#" class="btn btn-block btn-primary">Изменить</a></td>
+                                <td><a href="{{ route('admin.user.edit', $user->id) }}" class="btn btn-block btn-primary">Изменить</a></td>
                             </tr>
                         @endforeach
                         </tbody>
