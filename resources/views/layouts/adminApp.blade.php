@@ -57,7 +57,7 @@
                     <a href="#" class="d-block">{{ Auth::user()->name }} {{ Auth::user()->surname }}</a>
                 </div>
             </div>
-            @if(Auth::user() && in_array(Auth::user()->role, $roles))
+            @if(Auth::user() && in_array(Auth::user()->role, ['admin', 'moderator']))
             <!-- Sidebar Menu -->
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
