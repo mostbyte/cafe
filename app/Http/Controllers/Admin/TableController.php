@@ -46,8 +46,20 @@ class TableController extends Controller
      */
     public function store(TableRequest $request)
     {
-        Table::query()->create($request->validated());
-        return redirect()->route('admin.table.index');
+        $storeData = [
+            'coordinates' => json_encode([
+                'x' => $request->x,
+                'y' => $request->y,
+            ]),
+            'size' => json_encode([
+                'width' => $request->width,
+                'height' => $request->height
+            ])
+        ];
+        Table::query()->create($storeData);
+        return response()->json([
+            'message' => "Стол создан успешно"
+        ], 201);
     }
 
     /**
@@ -81,10 +93,22 @@ class TableController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(TableRequest $request, Table $table)
+    public function update(Request $request)
     {
-        tap($table)->update($request->validated());
-        return redirect()->route('admin.table.index');
+
+        foreach($request['tables'] as $key => $value){
+            $table = Table::find($value['id']);
+            $table->name = $value['id'];
+            $table->coordinates = $value['coordinates'];
+            $table->size = $value['size'];
+            $table->type = $value['type'];
+            $table->save();
+        }
+        // return response()->json([
+        //     'message' => "Стол изменен успешно"
+        // ], 201);
+
+        // return redirect()->route('admin.table.index');
     }
 
     /**
@@ -93,9 +117,8 @@ class TableController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Table $table)
+    public function destroy(Request $request)
     {
-        $table->delete();
-        return redirect()->route('admin.table.index');
+        Table::destroy($request->data);
     }
 }

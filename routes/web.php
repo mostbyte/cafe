@@ -47,9 +47,9 @@ Route::prefix('admin')->middleware(['auth', 'checkRole'])->name('admin.')->names
             Route::get('', ['as' => 'index', 'uses' => 'TableController@index']);
             Route::get('create', ['as' => 'create', 'uses' => 'TableController@create']);
             Route::post('store', ['as' => 'store', 'uses' => 'TableController@store']);
-            Route::delete('destroy/{table}', ['as' => 'delete', 'uses' => 'TableController@destroy']);
+            Route::post('destroy', ['as' => 'delete', 'uses' => 'TableController@destroy']);
             Route::get('edit/{table}', ['as' => 'edit', 'uses' => 'TableController@edit']);
-            Route::match(['put', 'patch'],'update/{table}', ['as' => 'update', 'uses' => 'TableController@update']);
+            Route::put('update', ['as' => 'update', 'uses' => 'TableController@update']);
         });
 
     //USER ROUTES

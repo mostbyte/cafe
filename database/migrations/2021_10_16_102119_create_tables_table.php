@@ -16,10 +16,14 @@ class CreateTablesTable extends Migration
     {
         Schema::create('tables', function (Blueprint $table) {
             $table->id();
-            $table->softDeletes(Base::DELETED_AT)->nullable();
-            $table->string('name');
-            $table->integer('price');
+            $table->string('name')->nullable();
+            $table->integer('price')->nullable();
+            $table->json('coordinates');
+            $table->json('size');
+            $table->string('type')->default('square');
+            $table->integer('floor')->default(1);
             $table->timestamps();
+            $table->softDeletes(Base::DELETED_AT);
         });
     }
 

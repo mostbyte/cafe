@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             DishSeeder::class,
             DishTypeSeeder::class,
-            TableSeeder::class,
+            // TableSeeder::class,
         ]);
     }
 }

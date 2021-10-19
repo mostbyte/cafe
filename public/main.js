@@ -1,8 +1,6 @@
-$(document).ready(function() {
-
+$(function() {
     $(".item").draggable({
         containment: "#tbl",
-        // grid: [10, 10],
         cancel: ".resizer",
         cancel: ".editable",
         grid: [10, 10]
@@ -15,8 +13,6 @@ $(document).ready(function() {
         else {
           $(this).removeClass("circle")
         }
-        console.log($(".editable").width())
-        console.log($(".item").width())
     });
 
     $(document).on("click", ".editable", function(){
@@ -36,74 +32,57 @@ $(document).ready(function() {
             lastClassText = lastClass.text()
             lastClass.removeClass("active")
           }
-          // if(($(".item").width() - $(".editable").width()) <= 10) {
-
-          // }
         }
       });
     });
 
-      $(document).on("click",".close", function() {
-        console.log($(this).parent().remove());
+    $(".add-table-btn").on("click", function() {
+        const itemsCount = $('.item').length + 1;
+
+        $("#tbl").append(`
+            <div class="item" id="${itemsCount}">
+            <span class="editable" contenteditable="true" id="table-name-${itemsCount}">${itemsCount}</span>\
+            <img class="close" src="https://img.icons8.com/windows/32/000000/macos-close.png"/>
+            <div class="resizer"></div>
+            </div>`);
+
+        $(".item").draggable({
+            containment: "#tbl",
+            cancel: ".resizer",
+            cancel: ".editable",
+            grid: [10, 10]
+        });
+
+        $(".item").resizable({
+            containment: "#tbl",
+            grid: [10, 10]
+        });
+
+        createTable({x: 1, y: 1, width: 100, height: 100, type: 'square'});
+
     });
 
-    $(".btn").on("click", function() {
-      $("#tbl").append('\
-        <div class="item">\
-          <span class="editable" contenteditable="true" >1</span>\
-          <img class="close" src="https://img.icons8.com/windows/32/000000/macos-close.png"/>\
-          <div class="resizer"></div>\
-        </div>');
-      $(".item").draggable({
+    $(".item").resizable({
         containment: "#tbl",
-        // grid: [50, 50],
-        cancel: ".resizer",
-        cancel: ".editable",
-        grid: [10, 10]
-      });
-      $(".item").resizable({
-        containment: "#tbl",
-        grid: [10, 10]
-      });
-        // var leftPos = $("#tbl:last-child").offset().left;
-        // var topPos = $("#tbl:last-child").offset().top;
-        // var divWidth = $("#tbl:last-child").width();
-        // var divHeight = $("#tbl:last-child").height();
-        $(".item").last().attr({
-          style: "left: " + leftPos + "px; top: " + topPos + "px; width: " + divWidth + "px; height: " + divHeight + "px",
-        });
-      });
+        grid: [10, 10],
+    });
 
-
-    // $(document).on("mousedown",".resizer",function(e){
-    //   // $(this).parent()
-    //   // console.log(e.clientX)
-    //   startX = e.clientX;
-    //   startY = e.clientY;
-    //   startWidth = $(this).parent().width();
-    //   startHeight = $(this).parent().height();
-    //   $(this).parent().css({
-    //     "maxWidth": ($("#tbl")[0].offsetLeft + $("#tbl")[0].offsetWidth - $(this).parent().offsetLeft) + "px",
-    //     "maxHeight": ($("#tbl")[0].offsetTop + $("#tbl")[0].offsetHeight - $(this).parent().offsetTop) + "px",
-    //   })
-    //   $(document).on("mousemove", ".resizer", function(e) {
-    //     $(this).parent().width(startWidth + e.clientX - startX)
-    //     $(this).parent().height(startHeight + e.clientY - startY)
-    //   });
-    // });
-
-$(".item").resizable({
-  containment: "#tbl",
-  grid: [10, 10],
 });
 
-  var leftPos = $(".item").offset().left;
-  var topPos = $(".item").offset().top;
-  var divWidth = $(".item").width();
-  var divHeight = $(".item").height();
-  $(".item").attr({
-    style: "left: " + leftPos + "px; top: " + topPos + "px; width: " + divWidth + "px; height: " + divHeight + "px",
-  });
+$(document).on("click",".close", function(params) {
+    console.log($(this).parent().remove());
+    params ={
+        '_token' : '',
+        'data' : '',
+    };
+    params._token = $("meta[name='csrf_token']").attr('content');
+    params.data = $(this).parent()[0].id;
+    console.log(params);
+    $.ajax({
+        url: `${window.location.origin}/admin/table/destroy`,
+        type: 'post',
+        data: params,
+    });
 });
 
 for (var i = 0; i < 50; i++) {
@@ -126,6 +105,51 @@ for (var i = 0; i < 70 ; i++) {
 }
 
 
+createTable = function(params) {
+    params._token = $("meta[name='csrf_token']").attr('content');
+    $.ajax({
+        url: `${window.location.origin}/admin/table/store`,
+        type: 'post',
+        data: params,
+    });
+}
 
+updateTable = function(table) {
+    $.ajax({
+        url: `${window.location.origin}/admin/table/update`,
+        type: 'put',
+        data: table,
+    });
+}
+
+$('.save-table-btn').on('click', function(){
+    var dataTab = {};
+    dataTab.tables = [];
+    dataTab._token = $("meta[name='csrf_token']").attr('content');
+    $(".item").each((index, table) => {
+        dataTab.tables.push({
+            coordinates: JSON.stringify({
+                x: table.offsetTop,
+                y: table.offsetLeft,
+            }),
+            size: JSON.stringify({
+                width: table.offsetWidth,
+                height: table.offsetHeight,
+            }),
+            id: table.id,
+            type: typeOfTable(table),
+        });
+    });
+    updateTable(dataTab);
+});
+
+
+typeOfTable = function(value){
+    if(value.classList.contains('circle')){
+        return 'circle'
+    }else{
+        return 'square'
+    }
+}
 
 
