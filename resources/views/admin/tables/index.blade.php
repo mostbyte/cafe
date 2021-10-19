@@ -19,7 +19,8 @@
                     height: {{$size['height']}}px;
                     width: {{$size['width']}}px;
                 ">
-            <span class="editable" contenteditable="true" id="table-name">{{ $table->name }}</span>
+            <span class="editable" contenteditable="true" id="table-name">{{ $table->name }}</span>||
+            <span class="editable" contenteditable="true" id="table-price">{{ $table->price }}</span>
             <img class="close" src="https://img.icons8.com/windows/32/000000/macos-close.png"/>
             <div class="resizer"></div>
             </div>

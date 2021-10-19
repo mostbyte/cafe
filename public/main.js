@@ -41,7 +41,8 @@ $(function() {
 
         $("#tbl").append(`
             <div class="item" id="${itemsCount}">
-            <span class="editable" contenteditable="true" id="table-name-${itemsCount}">${itemsCount}</span>\
+            <span class="editable" contenteditable="true" id="table-name">имя</span>||
+            <span class="editable" contenteditable="true" id="table-price">цена</span>
             <img class="close" src="https://img.icons8.com/windows/32/000000/macos-close.png"/>
             <div class="resizer"></div>
             </div>`);
@@ -58,7 +59,7 @@ $(function() {
             grid: [10, 10]
         });
 
-        createTable({x: 1, y: 1, width: 100, height: 100, type: 'square'});
+        createTable({x: 1, y: 1, width: 100, height: 100, type: 'square', price: 0, name: "0"});
 
     });
 
@@ -138,6 +139,8 @@ $('.save-table-btn').on('click', function(){
             }),
             id: table.id,
             type: typeOfTable(table),
+            name: $('#table-name')[0].innerText,
+            price: $('#table-price')[0].innerText,
         });
     });
     updateTable(dataTab);
@@ -151,5 +154,3 @@ typeOfTable = function(value){
         return 'square'
     }
 }
-
-

@@ -54,7 +54,9 @@ class TableController extends Controller
             'size' => json_encode([
                 'width' => $request->width,
                 'height' => $request->height
-            ])
+            ]),
+            'price' => $request->price,
+            'name' => $request->name,
         ];
         Table::query()->create($storeData);
         return response()->json([
@@ -102,6 +104,8 @@ class TableController extends Controller
             $table->coordinates = $value['coordinates'];
             $table->size = $value['size'];
             $table->type = $value['type'];
+            $table->name = $value['name'];
+            $table->price = $value['price'];
             $table->save();
         }
         // return response()->json([
