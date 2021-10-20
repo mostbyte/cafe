@@ -40,9 +40,9 @@ $(function() {
         const itemsCount = $('.item').length + 1;
 
         $("#tbl").append(`
-            <div class="item" id="${itemsCount}">
-            <span class="editable" contenteditable="true" id="table-name">имя</span>||
-            <span class="editable" contenteditable="true" id="table-price">цена</span>
+            <div class="item" id="table-${itemsCount}" table-id="">
+            <span class="editable table-name" contenteditable="true">имя</span>||
+            <span class="editable table-price" contenteditable="true">цена</span>
             <img class="close" src="https://img.icons8.com/windows/32/000000/macos-close.png"/>
             <div class="resizer"></div>
             </div>`);
@@ -59,7 +59,7 @@ $(function() {
             grid: [10, 10]
         });
 
-        createTable({x: 1, y: 1, width: 100, height: 100, type: 'square', price: 0, name: "0"});
+        createTable({x: 1, y: 1, width: 100, height: 100, type: 'square', price: 0, name: "0"}, `#table-${itemsCount}`);
 
     });
 
@@ -71,18 +71,16 @@ $(function() {
 });
 
 $(document).on("click",".close", function(params) {
-    console.log($(this).parent().remove());
-    params ={
-        '_token' : '',
-        'data' : '',
-    };
-    params._token = $("meta[name='csrf_token']").attr('content');
-    params.data = $(this).parent()[0].id;
-    console.log(params);
+    const thisElem = $(this);
+    const id = $(this).parent().attr('table-id');
     $.ajax({
-        url: `${window.location.origin}/admin/table/destroy`,
-        type: 'post',
-        data: params,
+        url: `${window.location.origin}/admin/table/destroy/${id}`,
+        type: 'delete',
+        data: {_token: $("meta[name='csrf_token']").attr('content')},
+        success(response) {
+            toastr.success(response.message);
+            thisElem.parent().remove();
+        }
     });
 });
 
@@ -106,12 +104,16 @@ for (var i = 0; i < 70 ; i++) {
 }
 
 
-createTable = function(params) {
+createTable = function(params, tableId) {
     params._token = $("meta[name='csrf_token']").attr('content');
     $.ajax({
         url: `${window.location.origin}/admin/table/store`,
         type: 'post',
         data: params,
+        success(response) {
+            toastr.success(response.message);
+            $(tableId).attr('table-id', response.id);
+        }
     });
 }
 
@@ -120,6 +122,9 @@ updateTable = function(table) {
         url: `${window.location.origin}/admin/table/update`,
         type: 'put',
         data: table,
+        success(response) {
+            toastr.success(response.message);
+        }
     });
 }
 
@@ -137,10 +142,10 @@ $('.save-table-btn').on('click', function(){
                 width: table.offsetWidth,
                 height: table.offsetHeight,
             }),
-            id: table.id,
+            id: table.getAttribute('table-id'),
             type: typeOfTable(table),
-            name: $('#table-name')[0].innerText,
-            price: $('#table-price')[0].innerText,
+            name: table.querySelector('.table-name').innerText,
+            price: table.querySelector('.table-price').innerText,
         });
     });
     updateTable(dataTab);

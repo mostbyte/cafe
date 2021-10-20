@@ -4,14 +4,20 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TableRequest;
+use App\Http\Requests\TableUpdateRequest;
+use App\Services\TablesService;
 use App\Table;
 use Illuminate\Http\Request;
 
 class TableController extends Controller
 {
 
-    public function __construct()
+    /** @var TableService */
+    private $tableService;
+
+    public function __construct(TablesService $tablesService)
     {
+        $this->tableService = $tablesService;
         $this->middleware('auth');
     }
 
@@ -46,21 +52,11 @@ class TableController extends Controller
      */
     public function store(TableRequest $request)
     {
-        $storeData = [
-            'coordinates' => json_encode([
-                'x' => $request->x,
-                'y' => $request->y,
-            ]),
-            'size' => json_encode([
-                'width' => $request->width,
-                'height' => $request->height
-            ]),
-            'price' => $request->price,
-            'name' => $request->name,
-        ];
-        Table::query()->create($storeData);
+        $table = $this->tableService->create($request->validated());
+
         return response()->json([
-            'message' => "Стол создан успешно"
+            'message' => "Стол создан успешно",
+            'id' => $table->id
         ], 201);
     }
 
@@ -95,22 +91,14 @@ class TableController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(TableUpdateRequest $request)
     {
-
         foreach($request['tables'] as $key => $value){
-            $table = Table::find($value['id']);
-            $table->name = $value['id'];
-            $table->coordinates = $value['coordinates'];
-            $table->size = $value['size'];
-            $table->type = $value['type'];
-            $table->name = $value['name'];
-            $table->price = $value['price'];
-            $table->save();
+            $table = Table::where('id', '=', $value['id'])->update($value);
         }
-        // return response()->json([
-        //     'message' => "Стол изменен успешно"
-        // ], 201);
+        return response()->json([
+            'message' => "Стол изменен успешно"
+        ], 200);
 
         // return redirect()->route('admin.table.index');
     }
@@ -121,8 +109,12 @@ class TableController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy(Table $table)
     {
-        Table::destroy($request->data);
+        $table->delete();
+        return response()->json([
+            'message' => 'Успешно удалено'
+        ]);
+        // Table::destroy($request->data);
     }
 }
