@@ -5,19 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TableRequest;
 use App\Http\Requests\TableUpdateRequest;
-use App\Services\TablesService;
 use App\Table;
 use Illuminate\Http\Request;
 
 class TableController extends Controller
 {
-
-    /** @var TableService */
-    private $tableService;
-
-    public function __construct(TablesService $tablesService)
+    public function __construct()
     {
-        $this->tableService = $tablesService;
         $this->middleware('auth');
     }
 
@@ -52,8 +46,19 @@ class TableController extends Controller
      */
     public function store(TableRequest $request)
     {
-        $table = $this->tableService->create($request->validated());
-
+        $storeData = [
+            'coordinates' => json_encode([
+                'x' => $request->x,
+                'y' => $request->y,
+            ]),
+            'size' => json_encode([
+                'width' => $request->width,
+                'height' => $request->height
+            ]),
+            'price' => $request->price,
+            'name' => $request->name,
+        ];
+        $table = Table::query()->create($storeData);
         return response()->json([
             'message' => "Стол создан успешно",
             'id' => $table->id
