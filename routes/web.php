@@ -53,7 +53,7 @@ Route::prefix('admin')->middleware(['auth', 'checkRole'])->name('admin.')->names
         });
 
     //USER ROUTES
-        Route::prefix('user')->name('user.')->group(function () {
+        Route::prefix('user')->middleware(['auth', 'checkAdmin'])->name('user.')->group(function () {
             Route::get('', ['as' => 'index', 'uses' => 'UserController@index']);
             Route::get('create', ['as' => 'create', 'uses' => 'UserController@create']);
             Route::post('store', ['as' => 'store', 'uses' => 'UserController@store']);

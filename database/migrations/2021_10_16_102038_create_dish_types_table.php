@@ -17,8 +17,8 @@ class CreateDishTypesTable extends Migration
         Schema::create('dish_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->softDeletes(Base::DELETED_AT)->nullable();
             $table->timestamps();
+            $table->softDeletes(Base::DELETED_AT);
         });
     }
 

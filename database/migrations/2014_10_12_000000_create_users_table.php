@@ -21,8 +21,8 @@ class CreateUsersTable extends Migration
             $table->integer('check_percent')->default(1);
             $table->string('login')->unique();
             $table->string('role')->default('waiter');
-            $table->softDeletes(Base::DELETED_AT)->nullable();
             $table->timestamps();
+            $table->softDeletes(Base::DELETED_AT);
         });
     }
 

@@ -41,8 +41,8 @@ $(function() {
 
         $("#tbl").append(`
             <div class="item" id="table-${itemsCount}" table-id="">
-            <span class="editable table-name" contenteditable="true">имя</span>||
-            <span class="editable table-price" contenteditable="true">цена</span>
+            <span class="editable table-name" contenteditable="true">${itemsCount}</span>||
+            <span class="editable table-price" contenteditable="true">0</span>
             <img class="close" src="https://img.icons8.com/windows/32/000000/macos-close.png"/>
             <div class="resizer"></div>
             </div>`);

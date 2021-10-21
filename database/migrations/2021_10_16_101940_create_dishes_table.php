@@ -19,8 +19,8 @@ class CreateDishesTable extends Migration
             $table->string('name');
             $table->integer('count');
             $table->integer('department_id');
-            $table->softDeletes(Base::DELETED_AT)->nullable();
             $table->timestamps();
+            $table->softDeletes(Base::DELETED_AT);
         });
     }
 
