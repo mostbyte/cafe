@@ -65,6 +65,22 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                            <a href="{{ route('admin.product.index') }}" class="nav-link">
+                                <i class="fab fa-product-hunt"> </i>
+                                 <p>
+                                     Продукты
+                                 </p>
+                            </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.dish.index') }}" class="nav-link">
+                            <i class="fas fa-star-half-alt"> </i>
+                            <p>
+                                Полуфабрикаты
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="{{ route('admin.table.index') }}" class="nav-link">
                             <i class="fas fa-border-all"> </i>
                             <p>
@@ -113,10 +129,11 @@
 <script src="{{asset("plugins/jquery-ui/jquery-ui.min.js")}}"></script>
 <script>$.widget.bridge('uibutton', $.ui.button)</script>
 <script src="{{asset("plugins/bootstrap/js/bootstrap.bundle.min.js")}}"></script>
-<script src="{{asset("plugins/moment/moment.min.js")}}"></script>
 <script src="{{asset("plugins/daterangepicker/daterangepicker.js")}}"></script>
 <script src="{{asset("plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js")}}"></script>
 <script src="{{asset("dist/js/adminlte.js")}}"></script>>
+<script src="{{ asset("custom/js/own.js") }}"></script>
+<script src="{{ asset("custom/js/product.api.js") }}"></script>
 @yield('scripts')
 </body>
 </html>

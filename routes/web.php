@@ -63,12 +63,12 @@ Route::prefix('admin')->middleware(['auth', 'checkRole'])->name('admin.')->names
         });
 
     //PRODUCT ROUTES
-        Route::prefix('user')->middleware(['auth', 'checkAdmin'])->name('user.')->group(function () {
-            Route::get('', ['as' => 'index', 'uses' => 'UserController@index']);
-            Route::get('create', ['as' => 'create', 'uses' => 'UserController@create']);
-            Route::post('store', ['as' => 'store', 'uses' => 'UserController@store']);
-            Route::delete('destroy/{user}', ['as' => 'delete', 'uses' => 'UserController@destroy']);
-            Route::get('edit/{user}', ['as' => 'edit', 'uses' => 'UserController@edit']);
-            Route::match(['put', 'patch'],'update/{user}', ['as' => 'update', 'uses' => 'UserController@update']);
+        Route::prefix('product')->name('product.')->group(function () {
+            Route::get('', ['as' => 'index', 'uses' => 'ProductController@index']);
+            Route::get('create', ['as' => 'create', 'uses' => 'ProductController@create']);
+            Route::post('store', ['as' => 'store', 'uses' => 'ProductController@store']);
+            Route::delete('destroy/{product}', ['as' => 'delete', 'uses' => 'ProductController@destroy']);
+            Route::get('edit/{product}', ['as' => 'edit', 'uses' => 'ProductController@edit']);
+            Route::match(['put', 'patch'],'update/{product}', ['as' => 'update', 'uses' => 'ProductController@update']);
         });
 });
