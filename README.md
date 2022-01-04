@@ -7,9 +7,9 @@
 
 ## Технологии
 
-Laravel 8 [Документация](https://laravel.com/docs).
+- Laravel 8 [Документация](https://laravel.com/docs).
 
-Админ панель AdminLTE [Документация](https://adminlte.io/docs/2.4/installation).
+- Админ панель AdminLTE [Документация](https://adminlte.io/docs/2.4/installation).
 
 ---
 
