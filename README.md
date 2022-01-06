@@ -21,7 +21,9 @@ git pull
 
 composer  install
 
-php artisan migrate --force
+php artisan migrate:fresh --seed
 
 php artisan cache:clear
+
+php artisan key:generate
 ```
