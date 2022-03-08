@@ -9,7 +9,7 @@
         <div class="card-header">
             <h3 class="card-title">Создать</h3>
         </div>
-        <form id="product_create_form" method="POST">
+        <form name="productCreateForm" id="productCreateForm">
             @csrf
             @if ($errors->any())
             <div class="alert alert-danger" style="margin: 0; padding:0;">
@@ -40,7 +40,7 @@
                     <input name="Description" type="text" class="form-control" id="Description">
                 </div>
             <div class="card-footer">
-                <button type="button" class="btn btn-primary" id="product_create_btn">Создать</button>
+                <button type="submit" class="btn btn-primary" id="productStoreBtn">Создать</button>
             </div>
         </form>
     </div>
